@@ -1,66 +1,45 @@
-#include <fstream>
 #include <iostream>
-#include <sstream>
+#include <fstream>
 #include <string>
+#include <vector>
+
 using namespace std;
 
-/*void adv_tokenizer(string s, char del)
-{
-    stringstream ss(s);
-    string word;
-    while (!ss.eof()) {
-      getline(ss, word, del);
-    }
-} */
-
-/*void tokenize(string s, string del)
-{
-    int start, end = -1*del.size();
-    do {
-        start = end + del.size();
-        end = s.find(del, start);
-        cout << s.substr(start, end - start) << endl;
-    } while (end != -1);
-  } */
-
 int main() {
-  ostringstream infoOSS;
-  ifstream inFS;
-  string allInfo, category, name, desc, available;
-  char delim = '\t';
-  const int numItems = 4;
-
-  inFS.open("food.txt");
-  if (!inFS.is_open()) {
-    cout << "Could not open file numFile.txt." << endl;
-    return -1;
-  }
-
-  while (!inFS.fail()) {
-    
-    while (getline(inFS, allInfo)) {
+   //const int numElements = 4;
+   ifstream inFS;
+   string line, category, name, desc, avail;
+   string delim = "\t";
+   vector<string> allwords;
+   
+   inFS.open("food.txt");
+   
+   if (!inFS.is_open()) {
+      cout << "food.txt."<< endl;
+   }
+   
+   while (!inFS.eof()) {
+      getline(inFS, line);
+      size_t pos = 0;
+      while ((pos = line.find(delim)) != string::npos) {
+         allwords.push_back(line.substr(0,pos));
+         line.erase(0, pos + delim.length());
+         cout << allwords.at(0) << " (" << allwords.at(1) <<  ") " << " -- " << allwords.at(2) << " -- " << allwords.at(3) << endl;
+      }
+   }
       
-      stringstream ss(allInfo);
-      getline(ss, category, '\t');
-      getline(ss, name, '\t');
-      getline(ss, desc, '\t');
-      getline(ss, available, '\t');
       
-      
-      //adv_tokenizer(allInfo, delim);
-      //tokenize(allInfo, "\t");
-      
-      //inFS >> category >> name >> desc >> available;
-      cout << category;
-      
-      if (available == "available") {
-        cout << name << " (" << category << ") -- " << desc << endl;
-      } 
-      else if (available != "available") {
-        return;
-      } 
-      
-    }
-  }
-  inFS.close();
+      /*if (pos!=std::string::npos) {
+         size_t pos2 = line.find('\t',pos);
+         category = line.substr(0,pos);
+         size_t pos3 = line.find('\t',pos2);
+         name = line.substr(pos,pos2);
+         size_t pos4 = line.find('\t');
+         desc = line.substr(pos2,pos3);
+         //size_t pos5 = line.find('\t');
+         avail = line.substr(pos3,pos4);
+         //cout << pos << pos2 << pos3 << pos4;
+      }*/
+      //cout << name << " (" << category <<  ") " << " -- " << desc << " -- " << avail << endl;
+   return 0;
 }
